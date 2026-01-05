@@ -3,7 +3,7 @@ require ('config.php');
 global $yhendus;
 
 function lisapunkt($id){
-    // +1 punkt
+    // +1 punkti
     global $yhendus;
         $paring = $yhendus->prepare("UPDATE valimised SET punktid = punktid + 1 WHERE id = ?");
         $paring->bind_param('i', $_id);
