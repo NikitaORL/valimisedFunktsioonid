@@ -6,7 +6,7 @@ function lisapunkt($id){
     // +1 punkti
     global $yhendus;
         $paring = $yhendus->prepare("UPDATE valimised SET punktid = punktid + 1 WHERE id = ?");
-        $paring->bind_param('i', $_id);
+        $paring->bind_param('i', $id);
         $paring->execute();
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
@@ -25,4 +25,18 @@ function naitaTabel(){
         echo "<td><a href='?lisa1punkt=$id'> +1 punkt </a></td>";
         echo "<td>";
     }
+}
+
+
+//uue presidenti lisamine INSERT
+function lisaPresident()
+{
+    global $yhendus;
+    $paring = $yhendus->prepare("
+        INSERT INTO valimised (presedent, pilt, lisamisaeg)
+        VALUES (?, ?, NOW())"
+    );
+    $paring->bind_param('ss', $presedent, $pilt);
+    $paring->execute();
+    $yhendus->close();
 }
