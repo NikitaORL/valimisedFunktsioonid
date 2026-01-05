@@ -1,11 +1,46 @@
 <?php
 require ('funktsioonid.php');
+
+
+if (isset($_REQUEST['KustutaKomment'])){
+    kustutaKomment($_REQUEST['KustutaKomment']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
+
+
+if (isset($_REQUEST['uue_komment_id']) && !empty($_REQUEST['uus_kommentaar'])){
+    lisaKomentaar($_REQUEST['uue_komment_id'], $_REQUEST['uus_kommentaar']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
+if (isset($_REQUEST['kustuta'])){
+    kustutaPresident($_REQUEST['kustuta']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
 // päringud funktsioonide otsimiseks failis funktsioonid.php
 if (isset($_REQUEST['lisa1punkt'])){
     lisapunkt($_REQUEST['lisa1punkt']);
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
+
+//kustutab komentaar
+if (isset($_REQUEST['kustuta1punkt'])){
+    kustutapunkt($_REQUEST['kustuta1punkt']);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
+
 //paring lisaPresident funktsiooni otsimiseks
 if (!empty($_REQUEST['presedentNimi'])) {
     lisaPresident($_REQUEST['presedentNimi'], $_REQUEST['pilt'], $_REQUEST['punktid']);
@@ -18,6 +53,7 @@ if (!empty($_REQUEST['presedentNimi'])) {
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="style.css">
     <title>
 
     </title>
@@ -33,8 +69,10 @@ if (!empty($_REQUEST['presedentNimi'])) {
         <th>+1 punkt</th>
         <th>-1 punkt</th>
         <th>Komentaar</th>
-        <th>Lisa komentaar</th>
+        <th>Lisa kommentaar</th>
+        <th>Kustuta kommentaar</th>
     </tr>
+
 
     <?php
     //funktsioon mis näitab tabeli asub funktsioonid.php failis
