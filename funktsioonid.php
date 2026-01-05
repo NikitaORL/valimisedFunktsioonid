@@ -1,5 +1,5 @@
 <?php
-require ('config.php');
+require('config.php');
 global $yhendus;
 
 function lisapunkt($id){
