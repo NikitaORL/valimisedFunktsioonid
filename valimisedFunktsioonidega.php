@@ -13,9 +13,8 @@ if (isset($_REQUEST['KustutaKomment'])){
 
 if (isset($_REQUEST['uue_komment_id']) && !empty($_REQUEST['uus_kommentaar'])){
     lisaKomentaar($_REQUEST['uue_komment_id'], $_REQUEST['uus_kommentaar']);
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
+
 
 
 if (isset($_REQUEST['kustuta'])){
@@ -76,7 +75,7 @@ if (!empty($_REQUEST['presedentNimi'])) {
 
     <?php
     //funktsioon mis näitab tabeli asub funktsioonid.php failis
-    naitaTabel();
+    naitaTabelKasutaja();
     ?>
 </table>
 

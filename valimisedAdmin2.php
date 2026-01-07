@@ -81,50 +81,12 @@ if (isset($_REQUEST['Tuhista'])) {
         <th>Kustutamine</th>
         <th>Tühistamine</th>
         <th>Kustutamine komment</th>
+        <th>Kustuta</th>
     </tr>
 
     <?php
 
-    $paring = $yhendus->prepare("SELECT id, presedent, pilt, punktid, lisamisaeg, avalik, kommentaarid FROM valimised");
-    $paring->bind_result($id, $presedent, $pilt, $punktid, $lisamisaeg, $avalik, $kommentaarid);
-    $paring->execute();
-
-    while ($paring->fetch()) {
-        echo "<tr>";
-        echo "<td>$presedent</td>";
-        echo "<td><img src='$pilt' alt='pilt' style='max-width:50px;'></td>";
-        echo "<td>$punktid</td>";
-        echo "<td>$lisamisaeg</td>";
-        echo "<td>$kommentaarid</td>";
-
-        // Кнопка Näita/Peida
-        if ($avalik == 1) {
-            echo "<td><a href='?peida=$id'>Peida</a></td>";
-            echo "<td>Näidatud</td>";
-        } else {
-            echo "<td><a href='?naita=$id'>Näita</a></td>";
-            echo "<td>Peidatud</td>";
-        }
-
-        echo "<td><a href='?Kustuta=$id'>Kustuta</a></td>";
-
-        echo "<td><a href='?Tuhista=$id'>Tühista</a></td>";
-
-        echo "<td><a href='?KustutaKomment=$id'>Kustuta komentaar</a></td>";
-
-        echo "<td><a href='?kustuta=$id'>Kustuta </a></td>";
-
-        echo "</tr>";
-    }
-
-    /*ADMIN
-    1. delete presedenti kandidaadi
-    2. punktid nulliks
-    3, ei saa +1/-1
-    4.admin kohe saab lisada avalikuse staatus
-    */
-
-
+    NaitaTabelAdmin();
 
     ?>
 

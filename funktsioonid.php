@@ -24,10 +24,10 @@ function kustutapunkt($id){
 
 
 
-
-function naitaTabel(){
+/*-----------------------------------------------------------------------------------*/
+function naitaTabelKasutaja(){
     global $yhendus;
-    $paring = $yhendus->prepare("SELECT id, presedent, pilt, punktid, lisamisaeg, kommentaarid FROM valimised WHERE avalik=1 OR avalik=0");
+    $paring = $yhendus->prepare("SELECT id, presedent, pilt, punktid, lisamisaeg, kommentaarid FROM valimised WHERE avalik=1");
     $paring->bind_result($id, $presedent, $pilt, $punktid, $lisamisaeg, $kommentaarid);
     $paring->execute();
 
@@ -52,6 +52,43 @@ function naitaTabel(){
         echo "</tr>";
     }
 }
+
+
+function naitaTabelAdmin(){
+    global $yhendus;
+    $paring = $yhendus->prepare("SELECT id, presedent, pilt, punktid, lisamisaeg, avalik, kommentaarid FROM valimised");
+    $paring->bind_result($id, $presedent, $pilt, $punktid, $lisamisaeg, $avalik, $kommentaarid);
+    $paring->execute();
+
+    while ($paring->fetch()) {
+        echo "<tr>";
+        echo "<td>$presedent</td>";
+        echo "<td><img src='$pilt' alt='pilt' style='max-width:50px;'></td>";
+        echo "<td>$punktid</td>";
+        echo "<td>$lisamisaeg</td>";
+        echo "<td>$kommentaarid</td>";
+
+        // Кнопка Näita/Peida
+        if ($avalik == 1) {
+            echo "<td><a href='?peida=$id'>Peida</a></td>";
+            echo "<td>Näidatud</td>";
+        } else {
+            echo "<td><a href='?naita=$id'>Näita</a></td>";
+            echo "<td>Peidatud</td>";
+        }
+
+        echo "<td><a href='?Kustuta=$id'>Kustuta</a></td>";
+
+        echo "<td><a href='?Tuhista=$id'>Tühista</a></td>";
+
+        echo "<td><a href='?KustutaKomment=$id'>Kustuta komentaar</a></td>";
+
+        echo "<td><a href='?kustuta=$id'>Kustuta </a></td>";
+
+        echo "</tr>";
+    }
+}
+/*-------------------------------------------------------------------------------------------------*/
 
 
 
@@ -84,14 +121,14 @@ function kustutaPresident($id){
 function lisaKomentaar($id, $uus_kommentaar)
 {
     global $yhendus;
-    $paring = $yhendus->prepare("
-UPDATE valimised SET kommentaarid = concat(kommentaarid, ?) WHERE id = ?");
-    $komment2="\n".$_REQUEST['uus_kommentaar']."\n";
-    $paring->bind_param('si', $komment2, $_REQUEST['uue_komment_id']);
+    $komment2 = "\n" . $uus_kommentaar . "\n";
+    $paring = $yhendus->prepare("UPDATE valimised SET kommentaarid = concat(kommentaarid, ?) WHERE id = ?");
+    $paring->bind_param('si', $komment2, $id);
     $paring->execute();
     header("Location: " . $_SERVER['PHP_SELF']);
-
+    exit();
 }
+
 
 //Kommentaar kustutamine
 function kustutaKomment($id){
